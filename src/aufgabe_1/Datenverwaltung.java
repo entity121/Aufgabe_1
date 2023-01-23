@@ -98,11 +98,10 @@ public class Datenverwaltung {
     //
     //
     //########################################
-    public String Mitarbeiter_Hinzufügen(Mitarbeiter ma){
+    public void Mitarbeiter_Hinzufügen(Mitarbeiter ma){
         
         laufzeit_datenbank.add(ma);
         Datenbank_Update();
-        return "Speichern erfolgreich";
     }
     //########################################
     //

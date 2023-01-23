@@ -206,8 +206,6 @@ public class Logik_Eingeben {
     private void Vorgang_Abschließen(Mitarbeiter ma){
         
         daten.Mitarbeiter_Hinzufügen(ma);
-        
-        //log.LogNachricht(res);
     }
     //########################################
     //
