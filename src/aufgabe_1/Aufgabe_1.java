@@ -16,7 +16,6 @@ public class Aufgabe_1 {
         Datenverwaltung daten = new Datenverwaltung();
         Logik_Eingeben anlegen = new Logik_Eingeben(daten);   
         Logik_Ausgeben ausgeben = new Logik_Ausgeben(daten);
-     
         
         
         log.LogNachricht("Programm Start");

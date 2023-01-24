@@ -1,5 +1,7 @@
 package aufgabe_1;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +10,14 @@ import org.json.JSONObject;
 
 public class Datenverwaltung {    
   
-    private static String verzeichnis = "C:\\Users\\sebastian.heck\\Documents\\NetBeansProjects\\Aufgabe_1\\src\\aufgabe_1\\Datenbank.json";  
-    private ArrayList<Mitarbeiter>laufzeit_datenbank = new ArrayList<>(); 
+    private static String verzeichnis = "Datenbank.json";  
+    private ArrayList<Mitarbeiter>laufzeit_datenbank; 
     Konsole_Log log = new Konsole_Log();
 
     
+    public Datenverwaltung(){
+        this.laufzeit_datenbank = Datenbank_Laden();
+    }
     //
     //
     //
@@ -92,6 +97,113 @@ public class Datenverwaltung {
         catch(Exception e){
             log.LogError("Fehler\n"+e);
         }     
+    }
+    //########################################
+    //
+    //
+    //
+    //########################################
+    public ArrayList<Mitarbeiter> Datenbank_Laden(){
+        
+        File datei = new File(verzeichnis);
+        String inhalt = "";
+        ArrayList <Mitarbeiter> L_mitarbeiter = new ArrayList<>();
+        
+        //###########
+        try{
+            FileReader reader = new FileReader(datei);
+            
+            int ascii = reader.read();
+            while(ascii!=-1){
+                inhalt+=(char)ascii;
+                ascii = reader.read();
+            }
+        }
+        catch(Exception e){
+            log.LogError("Fehler:\n"+e);
+        }
+        //###########
+        
+        
+        //###########
+        int ID = 1;
+        JSONObject datenbank = new JSONObject(inhalt);
+        
+        do{
+            
+            if(datenbank.has(ID+"")){
+                
+                Mitarbeiter ma = new Mitarbeiter();
+                JSONObject Jmitarbeiter = datenbank.getJSONObject(ID+"");
+                
+                
+                ma.S_vorname = Jmitarbeiter.get("Vorname").toString();
+                ma.S_nachname = Jmitarbeiter.get("Nachname").toString();
+                
+                JSONObject Jgeburtstag = Jmitarbeiter.getJSONObject("Geburtstag");
+                ma.geburtstag[0] = Jgeburtstag.getInt("Tag");
+                ma.geburtstag[1] = Jgeburtstag.getInt("Monat");
+                ma.geburtstag[2] = Jgeburtstag.getInt("Jahr");
+                
+                ma.S_geschlecht = Jmitarbeiter.getString("Geschlecht");
+                
+                JSONObject Jausbildung = Jmitarbeiter.getJSONObject("Ausbildung");
+                int index = 1;
+                do{
+                    if(Jausbildung.has(index+"")){
+                        ma.Ls_ausbildung.add(Jausbildung.get(index+"").toString());
+                        index+=1;
+                    }
+                    else{
+                        index=0;
+                    }
+                }
+                while(index>0);
+                
+                ma.S_beruf = Jmitarbeiter.get("Beruf").toString();
+                ma.S_position = Jmitarbeiter.get("Position").toString();
+                ma.S_abteilung = Jmitarbeiter.get("Abteilung").toString();
+
+                ma.I_platz = Jmitarbeiter.getInt("Sitzplatz");
+                ma.I_raum = Jmitarbeiter.getInt("Raum");
+                ma.I_gehalt = Jmitarbeiter.getInt("Gehalt");
+                
+                JSONObject Jeinstellung = Jmitarbeiter.getJSONObject("Einstellung");
+                ma.einstellung[0] = Jeinstellung.getInt("Tag");
+                ma.einstellung[1] = Jeinstellung.getInt("Monat");
+                ma.einstellung[2] = Jeinstellung.getInt("Jahr");
+                
+                ma.S_email = Jmitarbeiter.get("EMail").toString();
+                ma.I_tel = Jmitarbeiter.getInt("Telefon");
+                        
+                JSONObject Jfähigkeiten = Jmitarbeiter.getJSONObject("Fähigkeiten");
+                index = 1;
+                do{
+                    if(Jfähigkeiten.has(index+"")){
+                        
+                        JSONObject fäh = Jfähigkeiten.getJSONObject(index+"");
+                        Fähigkeit f = new Fähigkeit(fäh.get("Fähigkeit").toString(),fäh.getInt("Bewertung"));
+                        ma.Lf_fähigkeiten.add(f);
+
+                        index+=1;
+                    }
+                    else{
+                        index=0;
+                    }
+                }
+                while(index>0);
+                
+                L_mitarbeiter.add(ma);
+                        
+               ID+=1; 
+            }
+            else{
+                ID=0;
+            }
+        }
+        while(ID>0);
+        
+        return L_mitarbeiter;
     }
     //########################################
     //
