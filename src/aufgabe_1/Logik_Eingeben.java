@@ -19,7 +19,7 @@ public class Logik_Eingeben {
     //
     //########################################
     public void Vorgang_Starten(){
-        
+        System.out.flush();
         Mitarbeiter ma = new Mitarbeiter();      
         
         log.LogNachricht("Neuer Mitarbeiter wird angelegt");
