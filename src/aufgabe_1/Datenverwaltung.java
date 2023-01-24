@@ -220,18 +220,18 @@ public class Datenverwaltung {
     //
     //
     //########################################
-    public List<Mitarbeiter> Liste_Ausgeben(){
+    public ArrayList<Mitarbeiter> Liste_Ausgeben(){
         
-        return null;
+        return laufzeit_datenbank;
     }
     //########################################
     //
     //
     //
     //########################################
-    public List<Mitarbeiter> Name_Suchen(String name){
+    public void Liste_Update(){
         
-        return null;
+        Datenbank_Update();
     }
     //########################################
     //
